@@ -18,4 +18,4 @@ else
     echo $dir $base
     mkdir -p $dir
     echo "$2" > $1
-fi
+fi 
