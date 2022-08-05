@@ -1,3 +1,5 @@
+Test_*_Runner.c
+build/
 *.o
 writer
 Test_*_Runner.c
