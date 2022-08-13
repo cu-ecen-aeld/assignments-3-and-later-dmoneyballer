@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <syslog.h>
 #define BUFFER 1000
+
 int main(int argc, char ** argv) {
+    openlog("Logs", LOG_SYSLOG, LOG_USER);
     if (argc < 3) {
+        syslog(LOG_PERROR, "please call this with 2 args, <dir to search> <text to search> to run this %d command\n", argc);
         printf("please call this with 2 args, <dir to search> <text to search> to run this %d command\n", argc);
         return 1;
     }
@@ -60,6 +64,8 @@ int main(int argc, char ** argv) {
     }
     pclose(file_occur);
     x[strlen(x)-1] = 0;
+    
     printf("The number of files are %s and the number of matching lines are %s", x, y);
+    closelog();
     return 0;
 }
