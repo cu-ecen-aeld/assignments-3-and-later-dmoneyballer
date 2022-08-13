@@ -1,7 +1,10 @@
 SRC:= writer.c
 TARGET = writer
 OBJS := $(SRC:.c=.o)
-CC:= aarch64-none-linux-gnu-gcc
+cross-compile: $(TARGET)
+
+$(TARGET) : $(OBJS)
+	aarch64-none-linux-gnu-gcc $(CFLAGS) $(INCLUDES) $(OBJS) -o $(TARGET) $(LDFLAGS)
 all: $(TARGET)
 
 $(TARGET) : $(OBJS)
