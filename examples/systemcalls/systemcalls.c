@@ -58,7 +58,7 @@ bool do_exec(int count, ...)
  *   as second argument to the execv() command.
  *
 */
-
+    int ret = execl(command[0], command[1]);
     va_end(args);
 
     return true;
