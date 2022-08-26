@@ -59,6 +59,8 @@ bool do_exec(int count, ...)
  *
 */
     int ret = execl(command[0], command[1]);
+    if (ret == -1)
+        perror("execl");
     va_end(args);
 
     return true;
