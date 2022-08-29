@@ -1,5 +1,11 @@
 #include "systemcalls.h"
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
+#include<stdio.h>
+#include<stdlib.h>
 /**
  * @param cmd the command to execute with system()
  * @return true if the command in @param cmd was executed
@@ -16,6 +22,10 @@ bool do_system(const char *cmd)
  *   and return a boolean true if the system() call completed with success
  *   or false() if it returned a failure
 */
+    int ret = system(cmd);
+    if (ret == -1) {
+        return false;
+    }
 
     return true;
 }
@@ -39,15 +49,29 @@ bool do_exec(int count, ...)
     va_list args;
     va_start(args, count);
     char * command[count+1];
+    char * first;
+    char * rest[count];
     int i;
     for(i=0; i<count; i++)
     {
         command[i] = va_arg(args, char *);
+        if (i==0) {
+        first = command[i];
+        printf("first %s", first);
+        }
+        else {
+            rest[i] = command[i];
+        }
     }
-    command[count] = NULL;
+    for (int i = 0; i < count; i++)
+    {
+       printf("rest, %s %d\n", rest[i], i);
+    }
+    
+    
     // this line is to avoid a compile warning before your implementation is complete
     // and may be removed
-    command[count] = command[count];
+    // command[count] = command[count];
 
 /*
  * TODO:
@@ -58,9 +82,12 @@ bool do_exec(int count, ...)
  *   as second argument to the execv() command.
  *
 */
-    int ret = execl(command[0], command[1]);
+    int ret;
+    
+    ret = execv(first, rest);
     if (ret == -1)
-        perror("execl");
+        perror("execv");
+
     va_end(args);
 
     return true;
@@ -77,14 +104,21 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
     va_start(args, count);
     char * command[count+1];
     int i;
+    char * first;
+    char * rest[count];
     for(i=0; i<count; i++)
     {
         command[i] = va_arg(args, char *);
+        if (i==0) {
+        first = command[i];
+        }
+        else {
+            rest[i] = command[i];
+        }
     }
-    command[count] = NULL;
     // this line is to avoid a compile warning before your implementation is complete
     // and may be removed
-    command[count] = command[count];
+    // command[count] = command[count];
 
 
 /*
@@ -93,7 +127,30 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
  *   redirect standard out to a file specified by outputfile.
  *   The rest of the behaviour is same as do_exec()
  *
-*/
+*/  
+    int kidpid;
+    // int wf1 = fopen("outputfile", "w");
+    int fd = open(outputfile, O_WRONLY|O_TRUNC|O_CREAT, 0644);
+    if (fd < 0) {
+        perror("open");
+        abort();
+    }
+    switch (kidpid = fork())
+    {
+    case -1:
+        perror("fork");
+        break;
+    case 0:
+        if (dup2(fd, 1) < 0) {
+            perror("dup2");
+            abort();
+        }
+        close(fd);
+        execv(first, rest);
+        perror("execv");
+    default:
+        close(fd);
+    }
 
     va_end(args);
 
