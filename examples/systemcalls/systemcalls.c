@@ -164,11 +164,7 @@ printf("%s is outfile\n\n", outputfile);
         }
         
     default:
-    int ret2 = execvp(command[0], command);
-    if (ret2 == -1) {
-            perror("execvp");
-            return false;
-        }
+    
         close(fd);
     }
 
