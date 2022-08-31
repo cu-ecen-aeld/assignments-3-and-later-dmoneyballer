@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include<stdio.h>
 #include<stdlib.h>
+#include <string.h>
 /**
  * @param cmd the command to execute with system()
  * @return true if the command in @param cmd was executed
@@ -46,21 +47,37 @@ bool do_exec(int count, ...)
 {
     va_list args;
     va_start(args, count);
-    char * command[count+1];
+    // char * command[count+1];
+    char * try[count];
+    char * first;
     int i;
     for(i=0; i<count; i++)
     {
-        command[i] = va_arg(args, char *);
+        if (i == 0) {
+            first = va_arg(args, char *);
+        } else {
+            try[i-1] = va_arg(args, char *);
+        }
+        
     }
-    command[count] = NULL;
+    // command[count] = NULL;
+    try[count-1] = NULL;
+        va_end(args);
+    
     // this line is to avoid a compile warning before your implementation is complete
     // and may be removed
     // command[count] = command[count];
-    int ret = execv(command[0], command);
+    int ret = execv(first, try);
+    printf("exec returned %d\n\n", ret);
     if (ret == -1)
     {
-        perror("execv");
+        // return false;
+        // perror("execv");
+        // exit(EXIT_FAILURE);
+        printf("returning false\n");
         return false;
+    } else {
+        return true;
     }
 
     // printf("%d",ret);
@@ -75,9 +92,9 @@ bool do_exec(int count, ...)
  *
 */
 
-    va_end(args);
 
-    return true;
+
+    
 }
 
 /**
@@ -129,14 +146,29 @@ printf("%s is outfile\n\n", outputfile);
             perror("dup2");
             abort();
         }
+        printf("%s closing", outputfile);
+        // char cmd[90];
+
         close(fd);
-        int ret = execv(command[0], command);
+        //         strcpy(cmd, command[2]);
+        // strcat(cmd, " ");
+        // strcat(cmd, command[3]);
+        // strcat(cmd, " > ");
+        // strcat(cmd, command[0]);
+        // popen(cmd, "r");
+        // sleep(10); 
+        int ret = execvp(command[0], command);
         if (ret == -1) {
-            perror("execv");
+            perror("execvp");
             return false;
         }
         
     default:
+    int ret2 = execvp(command[0], command);
+    if (ret2 == -1) {
+            perror("execvp");
+            return false;
+        }
         close(fd);
     }
 
@@ -144,3 +176,10 @@ printf("%s is outfile\n\n", outputfile);
 
     return true;
 }
+
+// int main() {
+// //  bool T = do_exec(2, "echo", "Testing execv implementation with echo");
+//  do_exec(3, "/usr/bin/test","-f","echo");
+//  do_exec(3, "/usr/bin/test","-f","/bin/echo");
+//  return 0;
+// }
