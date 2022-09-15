@@ -35,6 +35,10 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     git checkout ${KERNEL_VERSION}
 
     # TODO: Add your kernel build steps here
+    make -j ARCH=arm64 CROSS_COMPILE={CROSS_COMPILE}defconfig
+    make -j ARCH=arm64 CROSS_COMPILE={CROSS_COMPILE}all
+    make -j ARCH=arm64 CROSS_COMPILE={CROSS_COMPILE}modules
+    make -j ARCH=arm64 CROSS_COMPILE={CROSS_COMPILE}dtbs
 fi
 
 echo "Adding the Image in outdir"
@@ -48,6 +52,9 @@ then
 fi
 
 # TODO: Create necessary base directories
+mkdir -p bin dev etc home lib lib64 proc sbin sys tmp usr var
+mkdir -p usr/bin usr/lib usr/sbin
+mkdir -p var/log
 
 cd "$OUTDIR"
 if [ ! -d "${OUTDIR}/busybox" ]
@@ -56,6 +63,10 @@ git clone git://busybox.net/busybox.git
     cd busybox
     git checkout ${BUSYBOX_VERSION}
     # TODO:  Configure busybox
+    make -j distclean
+    make -j defconfig
+    make -j ARCH={ARCH} CROSS_COMPILE={CROSS_COMPILE}
+    make -j CONFIG_PREFIX={OUTDIR}/rootfs ARCH={ARCH} CROSS_COMPILE={CROSS_COMPILE} install
 else
     cd busybox
 fi
