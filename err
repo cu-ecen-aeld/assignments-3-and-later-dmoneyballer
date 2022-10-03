@@ -1,0 +1,25 @@
++ OUTDIR=/tmp/aeld
++ KERNEL_REPO=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
++ KERNEL_VERSION=v5.1.10
++ BUSYBOX_VERSION=1_33_1
++++ dirname ./finder-app/manual-linux.sh
+++ realpath ./finder-app
++ FINDER_APP_DIR=/home/dmoneyballa/assignment-1-dmoneyballer/finder-app
++ ARCH=arm64
++ CROSS_COMPILE=aarch64-none-linux-gnu-
++ '[' 0 -lt 1 ']'
++ echo 'Using default directory /tmp/aeld for output'
++ mkdir -p /tmp/aeld
++ cd /tmp/aeld
++ '[' '!' -d /tmp/aeld/linux-stable ']'
++ '[' '!' -e /tmp/aeld/linux-stable/arch/arm64/boot/Image ']'
++ cd linux-stable
++ echo 'Checking out version v5.1.10'
++ git checkout v5.1.10
+HEAD is now at 7e1bdd68f Linux 5.1.10
++ make defconfig
++ make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu-
+/usr/bin/ld: scripts/dtc/dtc-parser.tab.o:(.bss+0x20): multiple definition of `yylloc'; scripts/dtc/dtc-lexer.lex.o:(.bss+0x0): first defined here
+collect2: error: ld returned 1 exit status
+make[1]: *** [scripts/Makefile.host:101: scripts/dtc/dtc] Error 1
+make: *** [Makefile:1244: scripts_dtc] Error 2
