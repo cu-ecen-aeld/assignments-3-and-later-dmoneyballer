@@ -35,7 +35,7 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     cd linux-stable
     echo "Checking out version ${KERNEL_VERSION}"
     git checkout ${KERNEL_VERSION}
-    sed -i '41d' $OUTDIR/linux-stable/scripts/dtc/dtc-lexer.l
+    #sed -i '41d' $OUTDIR/linux-stable/scripts/dtc/dtc-lexer.l
     # TODO: Add your kernel build steps here
     make defconfig ARCH=$ARCH
     make -j 56 ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE
@@ -75,7 +75,7 @@ git clone git://busybox.net/busybox.git
     make -j distclean
     make defconfig ARCH=arm64
     
-    sudo make -j CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE2} install
+    sudo make -j CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} install
 else
     cd busybox
 fi
