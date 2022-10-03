@@ -82,13 +82,15 @@ fi
 
 # TODO: Make and install busybox
 # sudo make -j ARCH=${ARCH} CROSS_COMPILE=arm-unknown-linux-gnueabi- install
-sudo make -j ARCH=${ARCH} install
+sudo make -j CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} install
 
 # TODO: Add library dependencies to rootfs
 echo "Library dependencies"
  ${CROSS_COMPILE}readelf -a /bin/busybox | grep "program interpreter"
  ${CROSS_COMPILE}readelf -a /bin/busybox | grep "Shared library"
-cd "$OUTDIR"
+ ll ${OUTDIR}/rootfs
+ ll ${OUTDIR}/rootfs/bin
+ cd "$OUTDIR"
  exit 0
 # cp -a $OUTDIR/lib/ld-linux-armf.so.3 lib
 # cp -a $OUTDIR/lib/ld-2.22.so lib
