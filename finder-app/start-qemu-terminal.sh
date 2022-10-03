@@ -3,7 +3,7 @@
 # Author: Siddhant Jajoo.
 
 set -e
-
+set -x
 OUTDIR=$1
 
 if [ -z "${OUTDIR}" ]; then

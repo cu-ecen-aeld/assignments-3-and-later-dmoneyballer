@@ -13,7 +13,7 @@ FINDER_APP_DIR=$(realpath $(dirname $0))
 ARCH=arm64
 # ARCH=aarch64-none-linux-gnu-
 CROSS_COMPILE=aarch64-none-linux-gnu-
-CROSS_COMPILE2=aarch64-linux-gnu-
+CROSS_COMPILE2=/usr/bin/aarch64-linux-gnu-
 # FINDER_APP_DIR
 if [ $# -lt 1 ]
 then
