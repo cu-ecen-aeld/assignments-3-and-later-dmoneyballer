@@ -86,8 +86,10 @@ sudo make -j CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} install
 
 # TODO: Add library dependencies to rootfs
 echo "Library dependencies"
- ${CROSS_COMPILE}readelf -a /bin/busybox | grep "program interpreter"
- ${CROSS_COMPILE}readelf -a /bin/busybox | grep "Shared library"
+ ll ${OUTDIR}/rootfs
+ ll ${OUTDIR}/rootfs/bin
+ ${CROSS_COMPILE}readelf -a ../../bin/busybox | grep "program interpreter"
+ ${CROSS_COMPILE}readelf -a ../../bin/busybox | grep "Shared library"
  ll ${OUTDIR}/rootfs
  ll ${OUTDIR}/rootfs/bin
  cd "$OUTDIR"
