@@ -68,13 +68,12 @@ git clone git://busybox.net/busybox.git
     # TODO:  Configure busybox
     make -j distclean
     make defconfig
-    sudo make -j 56 CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} install
 else
     cd busybox
 fi
 
 # TODO: Make and install busybox
-# sudo make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
+sudo make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
 sudo make -j 56 CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} install
 
 # TODO: Add library dependencies to rootfs
@@ -84,7 +83,7 @@ cd "$OUTDIR/rootfs"
 cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/bin/../aarch64-none-linux-gnu/libc/lib64/libm.so.6 lib
 cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/bin/../aarch64-none-linux-gnu/libc/lib64/libc.so.6 lib
 cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/bin/../aarch64-none-linux-gnu/libc/lib64/libresolv-2.31.so lib
-
+cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/bin/../aarch64-none-linux-gnu/libc/lib64/ld-2.31.so lib
 cd "$OUTDIR/rootfs"
 
 sudo mknod -m 666 dev/null c 1 3
