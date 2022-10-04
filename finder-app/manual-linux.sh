@@ -81,7 +81,7 @@ else
 fi
 
 # TODO: Make and install busybox
-# sudo make -j ARCH=${ARCH} CROSS_COMPILE=arm-unknown-linux-gnueabi- install
+sudo make -j ARCH=${ARCH} CROSS_COMPILE=arm-unknown-linux-gnueabi- install
 sudo make -j CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} install
 
 # TODO: Add library dependencies to rootfs
@@ -114,16 +114,24 @@ echo "Library dependencies"
 # sleep 3
 # cp -a $OUTDIR/lib/ld-linux-armf.so.3 lib
 # cp -a $OUTDIR/lib/ld-2.22.so lib
-ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/
-sleep 20
-ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib
-sleep 20
-ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib64
-sleep 20
-ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/libexec
-sleep 20
-ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/include
-sleep 20
+
+
+
+# ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/
+# sleep 20
+# ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib
+# sleep 20
+# ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib64
+# sleep 20
+# ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/libexec
+# sleep 20
+# ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/include
+
+
+
+sleep 200000
+cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib64/libcc1.so.0.0.0 lib
+
 cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib64/libm.so lib
 cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib64/libc.so lib
 # cp -a $CROSS_COMPILE/lib/libc-2.22.so lib
