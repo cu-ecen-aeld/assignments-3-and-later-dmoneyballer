@@ -75,8 +75,8 @@ else
 fi
 
 # TODO: Make and install busybox
-sudo make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
-sudo make -j 56 CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} install
+make -j 56 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
+make -j 56 CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} install
 
 # TODO: Add library dependencies to rootfs
 echo "Library dependencies"
