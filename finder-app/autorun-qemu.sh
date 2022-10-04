@@ -1,4 +1,5 @@
 #!/bin/sh
+set -x
 cd $(dirname $0)
 echo "Running test script"
 ./finder-test.sh
