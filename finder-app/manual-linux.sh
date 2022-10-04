@@ -44,8 +44,8 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     # make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu-
     # make qemu_virt_defconfig;
     # make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu-
-    # make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu-all
-    # make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu-modules
+    make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- all
+    make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- modules
     make -j ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE dtbs
 fi
 
@@ -129,15 +129,18 @@ echo "Library dependencies"
 
 
 
-sleep 200000
-cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib64/libcc1.so.0.0.0 lib
+# sleep 200000
+cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/aarch64-none-linux-gnu/libc/lib64/libresolv-2.31.so lib
+cp -a /usr/lib/x86_64-linux-gnu/libm.so lib
+cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/aarch64-none-linux-gnu/libc/usr/lib64/libc.so lib
+# cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib64/libcc1.so.0.0.0 lib
 
-cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib64/libm.so lib
-cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib64/libc.so lib
+# cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib64/libm.so lib
+# cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib64/libc.so lib
 # cp -a $CROSS_COMPILE/lib/libc-2.22.so lib
 # cp -a $OUTDIR/lib/libm.so.6 lib
 # cp -a $OUTDIR/lib/libm-2.22.so lib
-cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/libc/lib64/libresolv-2.31.so lib
+# cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/libc/lib64/libresolv-2.31.so lib
 # cp -a $OUTDIR/lib/libc
 
 # arm-unknown-linux-gnueabi- readelf -a /bin/busybox | grep "Shared library"
