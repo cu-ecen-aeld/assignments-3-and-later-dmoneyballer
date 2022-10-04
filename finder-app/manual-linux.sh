@@ -45,8 +45,8 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     # make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu-
     # make qemu_virt_defconfig; 
     # make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu-
-    make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- all
-    make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- modules
+    # make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- all
+    # make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- modules
     make -j ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE dtbs
 fi
 
