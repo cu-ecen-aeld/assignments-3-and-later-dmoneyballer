@@ -151,7 +151,7 @@ cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-
 
 # arm-unknown-linux-gnueabi- readelf -a /bin/busybox | grep "Shared library"
 # TODO: Make device nodes
-cd "$OUTDIR"
+cd "$OUTDIR/rootfs"
 # mkdir bin dev etc home lib proc sbin sys tmp usr var
 # mkdir usr/bin usr/lib usr/sbin
 # mkir -p var/log
@@ -173,7 +173,7 @@ sudo cp finder.sh $OUTDIR/rootfs/home
 sudo cp ../conf/username.txt $OUTDIR/rootfs/home 
 sudo cp autorun-qemu.sh $OUTDIR/rootfs/home
 # TODO: Chown the root directory
-cd "$OUTDIR"
+cd "$OUTDIR/rootfs"
 
 sudo chown -R root:root *
 # TODO: Create initramfs.cpio.gz
