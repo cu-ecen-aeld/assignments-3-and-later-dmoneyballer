@@ -77,7 +77,6 @@ git clone git://busybox.net/busybox.git
     # TODO:  Configure busybox
     make -j distclean
     make defconfig ARCH=arm64
-    
     sudo make -j CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} install
 else
     cd busybox
@@ -98,7 +97,7 @@ echo "Library dependencies"
 #  sleep 3
 #  ${CROSS_COMPILE}readelf -a $OUTDIR/rootfs/bin/busybox | grep "Shared library"
 #  sleep 3
- cd "$OUTDIR"
+ cd "$OUTDIR/rootfs"
 #  grep -ir \.so $OUTDIR
 # ls -l $OUTDIR/lib
 # sleep 3
