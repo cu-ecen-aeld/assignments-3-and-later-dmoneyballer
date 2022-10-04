@@ -107,7 +107,7 @@ cd "$OUTDIR"
 # mkdir bin dev etc home lib proc sbin sys tmp usr var
 # mkdir usr/bin usr/lib usr/sbin
 # mkir -p var/log
-rm dev/*
+# rm dev/*
 sudo mknod -m 666 dev/null c 1 3
 sudo mknod -m 666 dev/console c 1 5
 sudo mknod -m 666 dev/Console c 1 5
