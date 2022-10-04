@@ -90,8 +90,10 @@ echo "Library dependencies"
  sleep 15
  ls -l ${OUTDIR}/rootfs/bin
  sleep 15
-#  ${CROSS_COMPILE}readelf -a $OUTDIR/rootfs/busybox | grep "program interpreter"
-#  ${CROSS_COMPILE}readelf -a $OUTDIR/rootfs/busybox | grep "Shared library"
+ ${CROSS_COMPILE}readelf -a $OUTDIR/rootfs/bin/busybox | grep "program interpreter"
+ sleep 5
+ ${CROSS_COMPILE}readelf -a $OUTDIR/rootfs/bin/busybox | grep "Shared library"
+ sleep 3
  cd "$OUTDIR"
 #  grep -ir \.so $OUTDIR
 ls -l $OUTDIR/lib
