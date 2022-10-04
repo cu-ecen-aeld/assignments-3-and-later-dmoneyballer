@@ -43,9 +43,9 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
 
     # TODO: Add your kernel build steps here
     # Step 1: Clean tree
-    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} mrproper
+    make j 56 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} mrproper
     # Step 2: Configure 
-    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} defconfig
+    make j 56 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} defconfig
     # Step 3: Build kernal image
     make -j 56 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} all
     # Step 4: Build modules
@@ -100,8 +100,8 @@ else
 fi
 
 # TODO: Make and insatll busybox
-make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
-make CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} install
+make j 56 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
+make j 56 CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} install
 
 cd ${OUTDIR}/rootfs # My part
  
