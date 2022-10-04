@@ -62,10 +62,7 @@ mkdir -p var/log
 cd "$OUTDIR"
 if [ ! -d "${OUTDIR}/busybox" ]
 then
-export GIT_SSL_NO_VERIFY=1
-git config --global http.postBuffer 1048576000
-git config --global https.postBuffer 1048576000
-git clone https://git.busybox.net/busybox.git
+git clone git://busybox.net/busybox.git
     cd busybox
     git checkout ${BUSYBOX_VERSION}
     # TODO:  Configure busybox
@@ -105,6 +102,7 @@ sudo cp writer $OUTDIR/rootfs/home
 sudo cp finder.sh $OUTDIR/rootfs/home
 sudo cp ../conf/username.txt $OUTDIR/rootfs/home 
 sudo cp autorun-qemu.sh $OUTDIR/rootfs/home
+cp -f ${FINDER_APP_DIR}/autorun-qemu.sh ${OUTDIR}/rootfs/home
 # TODO: Chown the root directory
 cd "$OUTDIR/rootfs"
 
