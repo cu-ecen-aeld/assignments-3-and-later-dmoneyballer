@@ -11,8 +11,7 @@ BUSYBOX_VERSION=1_33_stable
 FINDER_APP_DIR=$(realpath $(dirname $0))
 ARCH=arm64
 CROSS_COMPILE=aarch64-none-linux-gnu-
-CROSS_COMPILE2=aarch64-linux-gnu-
-# FINDER_APP_DIR
+
 if [ $# -lt 1 ]
 then
 	echo "Using default directory ${OUTDIR} for output"
@@ -44,7 +43,7 @@ fi
 
 echo "Adding the Image in outdir"
 cd "$OUTDIR"
-cp  $OUTDIR/linux-stable/arch/arm64/boot/Image $OUTDIR/Image
+cp  {$OUTDIR}/linux-stable/arch/arm64/boot/Image {$OUTDIR}:/Image
 echo "Creating the staging directory for the root filesystem"
 cd "$OUTDIR"
 if [ -d "${OUTDIR}/rootfs" ]
@@ -109,11 +108,6 @@ cd "$OUTDIR/rootfs"
 
 sudo chown -R root:root *
 # TODO: Create initramfs.cpio.gz
-# cd rootfs
 find . |cpio -H newc -ov --owner root:root > ${OUTDIR}/initramfs.cpio
 cd "$OUTDIR"
 gzip -f initramfs.cpio
-# mkdir -p Image
-# cp initramfs.cpio.gz Image 
-# cd $FINDER_APP_DIR
-# ./start-qemu-terminal.sh $OUTDIR
