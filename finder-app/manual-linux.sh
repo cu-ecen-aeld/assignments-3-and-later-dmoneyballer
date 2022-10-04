@@ -62,6 +62,8 @@ then
 fi
 
 # TODO: Create necessary base directories
+mkdir rootfs
+cd ${OUTDIR}/rootfs
 mkdir -p bin dev etc home lib lib64 proc sbin sys tmp usr var
 mkdir -p usr/bin usr/lib usr/sbin
 mkdir -p var/log
@@ -83,6 +85,7 @@ fi
 
 # TODO: Make and install busybox
 # sudo make -j ARCH=${ARCH} CROSS_COMPILE=arm-unknown-linux-gnueabi- install
+sudo make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
 sudo make -j CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} install
 
 # TODO: Add library dependencies to rootfs
