@@ -183,5 +183,5 @@ cd "$OUTDIR"
 gzip -f initramfs.cpio
 # mkdir -p Image
 # cp initramfs.cpio.gz Image 
-cd $FINDER_APP_DIR
-./start-qemu-terminal.sh $OUTDIR
+# cd $FINDER_APP_DIR
+# ./start-qemu-terminal.sh $OUTDIR
