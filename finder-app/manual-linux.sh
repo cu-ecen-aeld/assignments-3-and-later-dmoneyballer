@@ -1,17 +1,18 @@
+#!/bin/bash
+# Script outline to install and build kernel.
+# Author: Siddhant Jajoo.
+ set -x
 set -e
 set -u
-
 OUTDIR=/tmp/aeld
-#KERNEL_REPO=https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-KERNEL_REPO=https://kernel.googlesource.com/pub/scm/linux/kernel/git/stable/linux.git
-#KERNEL_VERSION=v5.1.10
-KERNEL_VERSION=linux-5.1.y
+KERNEL_REPO=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+KERNEL_VERSION=v5.1.10
 BUSYBOX_VERSION=1_33_stable
 FINDER_APP_DIR=$(realpath $(dirname $0))
 ARCH=arm64
 CROSS_COMPILE=aarch64-none-linux-gnu-
-PROJECT_PATH=/tmp/
-
+CROSS_COMPILE2=aarch64-linux-gnu-
+# FINDER_APP_DIR
 if [ $# -lt 1 ]
 then
 	echo "Using default directory ${OUTDIR} for output"
@@ -22,42 +23,28 @@ fi
 
 mkdir -p ${OUTDIR}
 
-#---Adding my part here
-if ! [ -d "${OUTDIR}" ]; then #directory could not be created, return error
-	echo "Error: $OUTDIR Director could not be created"
-	exit 1
-fi
-#---Adding my part here	
-
 cd "$OUTDIR"
 if [ ! -d "${OUTDIR}/linux-stable" ]; then
     #Clone only if the repository does not exist.
 	echo "CLONING GIT LINUX STABLE VERSION ${KERNEL_VERSION} IN ${OUTDIR}"
 	git clone ${KERNEL_REPO} --depth 1 --single-branch --branch ${KERNEL_VERSION}
-	mv linux/ linux-stable/
 fi
 if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     cd linux-stable
     echo "Checking out version ${KERNEL_VERSION}"
     git checkout ${KERNEL_VERSION}
-
+    #sed -i '41d' $OUTDIR/linux-stable/scripts/dtc/dtc-lexer.l
     # TODO: Add your kernel build steps here
-    # Step 1: Clean tree
-    make j 56 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} mrproper
-    # Step 2: Configure 
-    make j 56 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} defconfig
-    # Step 3: Build kernal image
-    make -j 56 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} all
-    # Step 4: Build modules
-    make -j 56  ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} modules
-    # Step 5: Build device tree
-    make -j 56 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} dtbs
+    # make defconfig ARCH=$ARCH
+    make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE defconfig
+    make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- all
+    make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- modules
+    make -j ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE dtbs
 fi
 
-echo "Adding the Image in outdir  "
-#TODO: Copy the Image in outdir
-cp ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ${OUTDIR}/
-
+echo "Adding the Image in outdir"
+cd "$OUTDIR"
+cp  $OUTDIR/linux-stable/arch/arm64/boot/Image $OUTDIR/Image
 echo "Creating the staging directory for the root filesystem"
 cd "$OUTDIR"
 if [ -d "${OUTDIR}/rootfs" ]
@@ -67,86 +54,66 @@ then
 fi
 
 # TODO: Create necessary base directories
-mkdir ${OUTDIR}/rootfs
-
-if ! [ -d "${OUTDIR}/rootfs" ]
-then
-	echo "Error: ${OUTDIR}/rootfs could not be created"
-	exit 1
-fi
-
+mkdir rootfs
 cd ${OUTDIR}/rootfs
-mkdir bin dev etc home lib proc sbin sys tmp usr var lib64
-mkdir usr/bin usr/lib usr/sbin
+mkdir -p bin dev etc home lib lib64 proc sbin sys tmp usr var
+mkdir -p usr/bin usr/lib usr/sbin
 mkdir -p var/log
-
 
 cd "$OUTDIR"
 if [ ! -d "${OUTDIR}/busybox" ]
 then
-#git clone https://busybox.net/busybox.git
-
-export GIT_SSL_NO_VERIFY=1
-git config --global http.postBuffer 1048576000
-git config --global https.postBuffer 1048576000
-git clone https://git.busybox.net/busybox.git
+git clone git://busybox.net/busybox.git
     cd busybox
     git checkout ${BUSYBOX_VERSION}
     # TODO:  Configure busybox
-    make distclean
+    make -j distclean
     make defconfig
+    sudo make -j CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} install
 else
     cd busybox
 fi
 
-# TODO: Make and insatll busybox
-make j 56 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
-make j 56 CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} install
-
-cd ${OUTDIR}/rootfs # My part
- 
-echo "Library dependencies"
-${CROSS_COMPILE}readelf -a bin/busybox | grep "program interpreter"
-${CROSS_COMPILE}readelf -a bin/busybox | grep "Shared library"
+# TODO: Make and install busybox
+# sudo make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
+sudo make -j CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} install
 
 # TODO: Add library dependencies to rootfs
-#cd ${OUTDIR}/rootfs
-SYSROOT=$(${CROSS_COMPILE}gcc -print-sysroot)
-cp $SYSROOT/lib/ld-linux-aarch64.so.1 lib
-cp $SYSROOT/lib64/libresolv.so.2 lib64
-cp $SYSROOT/lib64/libm.so.6 lib64
-cp $SYSROOT/lib64/libc.so.6 lib64
+echo "Library dependencies"
+cd "$OUTDIR/rootfs"
 
+cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/bin/../aarch64-none-linux-gnu/libc/lib64/libm.so.6 lib
+cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/bin/../aarch64-none-linux-gnu/libc/lib64/libc.so.6 lib
+cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/bin/../aarch64-none-linux-gnu/libc/lib64/libresolv-2.31.so lib
 
-echo "Starting make devices step"
-# TODO: Make device nodes
+cd "$OUTDIR/rootfs"
+
 sudo mknod -m 666 dev/null c 1 3
 sudo mknod -m 600 dev/console c 5 1
-
-echo "Starting writer app build step"
-# TODO: Clean and build the writer utility
-cd ${FINDER_APP_DIR}
-make clean
-make CROSS_COMPILE=${CROSS_COMPILE} all
-
-echo "Starting files copy step"
+# sudo mknod -m 666 dev/Console c 1 5
+# sudo mknod -m 666 dev/tty c 1 5
+# # TODO: Clean and build the writer utility
+cd $FINDER_APP_DIR
+# make clean e modules_install step discus
+make -j ARCH=${ARCH} CROSS_COMPILE=$CROSS_COMPILE
 # TODO: Copy the finder related scripts and executables to the /home directory
 # on the target rootfs
-cp  ${FINDER_APP_DIR}/writer ${OUTDIR}/rootfs/home
-cp  ${FINDER_APP_DIR}/finder.sh ${OUTDIR}/rootfs/home
-cp -r ${FINDER_APP_DIR}/conf/ ${OUTDIR}/rootfs/home
-cp  ${FINDER_APP_DIR}/finder-test.sh ${OUTDIR}/rootfs/home
-cp -f ${FINDER_APP_DIR}/autorun-qemu.sh ${OUTDIR}/rootfs
-cp -f ${FINDER_APP_DIR}/autorun-qemu.sh ${OUTDIR}/rootfs/home
-
-echo "Starting chown root directory step"
+sudo mkdir -p $OUTDIR/rootfs/home
+sudo  cp finder $OUTDIR/rootfs/home
+sudo cp writer $OUTDIR/rootfs/home
+sudo cp finder.sh $OUTDIR/rootfs/home
+sudo cp ../conf/username.txt $OUTDIR/rootfs/home 
+sudo cp autorun-qemu.sh $OUTDIR/rootfs/home
 # TODO: Chown the root directory
-cd ${OUTDIR}/rootfs
-sudo chown -R root:root *
+cd "$OUTDIR/rootfs"
 
-echo "Starting create initramfs.cpio.gz step"
+sudo chown -R root:root *
 # TODO: Create initramfs.cpio.gz
-cd ${OUTDIR}/rootfs
-find . | cpio -H newc -ov --owner root:root > ../initramfs.cpio
-cd ..
+# cd rootfs
+find . |cpio -H newc -ov --owner root:root > ${OUTDIR}/initramfs.cpio
+cd "$OUTDIR"
 gzip -f initramfs.cpio
+# mkdir -p Image
+# cp initramfs.cpio.gz Image 
+# cd $FINDER_APP_DIR
+# ./start-qemu-terminal.sh $OUTDIR
