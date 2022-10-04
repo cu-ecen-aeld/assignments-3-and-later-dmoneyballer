@@ -37,7 +37,8 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     git checkout ${KERNEL_VERSION}
     #sed -i '41d' $OUTDIR/linux-stable/scripts/dtc/dtc-lexer.l
     # TODO: Add your kernel build steps here
-    make defconfig ARCH=$ARCH
+    # make defconfig ARCH=$ARCH
+    make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE defconfig
     make -j 56 ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE
     # make -j 56 CROSS_COMPILE=$CROSS_COMPILE
     # make -j 56 ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu-defconfig-
