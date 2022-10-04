@@ -43,7 +43,7 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     # make -j 56 CROSS_COMPILE=$CROSS_COMPILE
     # make -j 56 ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu-defconfig-
     # make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu-
-    # make qemu_virt_defconfig;
+    # make qemu_virt_defconfig; 
     # make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu-
     make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- all
     make -j ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- modules
