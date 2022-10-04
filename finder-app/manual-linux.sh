@@ -109,6 +109,7 @@ sleep 3
 ls -l /usr/lib
 sleep 3
 echo looking for libm.so.6, libresolv.so.2 libc.so.6
+which ${CROSS_COMPILE}gcc
 ls -l /usr/lib64
 sleep 3
 # cp -a $OUTDIR/lib/ld-linux-armf.so.3 lib
@@ -117,7 +118,7 @@ sleep 3
 # cp -a $CROSS_COMPILE/lib/libc-2.22.so lib
 # cp -a $OUTDIR/lib/libm.so.6 lib
 # cp -a $OUTDIR/lib/libm-2.22.so lib
-#cp -a /home/dmoneyballa/Downloads/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/aarch64-none-linux-gnu/libc/lib64/libresolv-2.31.so lib
+#cp -a /home/dmoneyballa/Downloads/gcc-arm-10.2 -2020.11-x86_64-aarch64-none-linux-gnu/aarch64-none-linux-gnu/libc/lib64/libresolv-2.31.so lib
 # cp -a $OUTDIR/lib/libc
 
 # arm-unknown-linux-gnueabi- readelf -a /bin/busybox | grep "Shared library"
