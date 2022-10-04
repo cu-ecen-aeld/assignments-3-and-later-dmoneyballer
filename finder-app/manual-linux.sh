@@ -47,11 +47,11 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     # Step 2: Configure 
     make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} defconfig
     # Step 3: Build kernal image
-    make -j4 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} all
+    make -j 56 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} all
     # Step 4: Build modules
-    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} modules
+    make -j 56  ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} modules
     # Step 5: Build device tree
-    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} dtbs
+    make -j 56 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} dtbs
 fi
 
 echo "Adding the Image in outdir  "
