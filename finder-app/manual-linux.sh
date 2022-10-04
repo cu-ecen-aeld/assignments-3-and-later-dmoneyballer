@@ -86,46 +86,46 @@ sudo make -j CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} install
 
 # TODO: Add library dependencies to rootfs
 echo "Library dependencies"
- ls -l ${OUTDIR}/rootfs
- sleep 3
- ls -l ${OUTDIR}/rootfs/bin
- sleep 3
- ${CROSS_COMPILE}readelf -a $OUTDIR/rootfs/bin/busybox | grep "program interpreter"
- sleep 3
- ${CROSS_COMPILE}readelf -a $OUTDIR/rootfs/bin/busybox | grep "Shared library"
- sleep 3
+#  ls -l ${OUTDIR}/rootfs
+#  sleep 3
+#  ls -l ${OUTDIR}/rootfs/bin
+#  sleep 3
+#  ${CROSS_COMPILE}readelf -a $OUTDIR/rootfs/bin/busybox | grep "program interpreter"
+#  sleep 3
+#  ${CROSS_COMPILE}readelf -a $OUTDIR/rootfs/bin/busybox | grep "Shared library"
+#  sleep 3
  cd "$OUTDIR"
 #  grep -ir \.so $OUTDIR
-ls -l $OUTDIR/lib
-sleep 3
-ls -l /
-sleep 3
-ls -l /home
-sleep 3
-ls -l /home/autotest-admin
-sleep 3
-ls -l /lib
-sleep 3
-ls -l /usr/lib
-sleep 3
-echo looking for libm.so.6, libresolv.so.2 libc.so.6
-which ${CROSS_COMPILE}gcc
-ls -l /usr/lib64
-sleep 3
+# ls -l $OUTDIR/lib
+# sleep 3
+# ls -l /
+# sleep 3
+# ls -l /home
+# sleep 3
+# ls -l /home/autotest-admin
+# sleep 3
+# ls -l /lib
+# sleep 3
+# ls -l /usr/lib
+# sleep 3
+# echo looking for libm.so.6, libresolv.so.2 libc.so.6
+# which ${CROSS_COMPILE}gcc
+# ls -l /usr/lib64
+# sleep 3
 # cp -a $OUTDIR/lib/ld-linux-armf.so.3 lib
 # cp -a $OUTDIR/lib/ld-2.22.so lib
 ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/
-sleep 10
+sleep 20
 ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib
-sleep 10
+sleep 20
 ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib64
-sleep 10
-ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/liebexec
-sleep 10
+sleep 20
+ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/libexec
+sleep 20
 ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/include
-sleep 10
-cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/libc/usr/lib64/libc.so lib
-cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/libm/usr/lib64/libc.so lib
+sleep 20
+cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib64/libm.so lib
+cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib64/libc.so lib
 # cp -a $CROSS_COMPILE/lib/libc-2.22.so lib
 # cp -a $OUTDIR/lib/libm.so.6 lib
 # cp -a $OUTDIR/lib/libm-2.22.so lib
