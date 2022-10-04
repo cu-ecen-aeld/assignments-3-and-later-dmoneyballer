@@ -81,7 +81,7 @@ else
 fi
 
 # TODO: Make and install busybox
-sudo make -j ARCH=${ARCH} CROSS_COMPILE=arm-unknown-linux-gnueabi- install
+# sudo make -j ARCH=${ARCH} CROSS_COMPILE=arm-unknown-linux-gnueabi- install
 sudo make -j CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} install
 
 # TODO: Add library dependencies to rootfs
