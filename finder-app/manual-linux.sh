@@ -87,27 +87,30 @@ sudo make -j CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} install
 # TODO: Add library dependencies to rootfs
 echo "Library dependencies"
  ls -l ${OUTDIR}/rootfs
- sleep 15
+ sleep 3
  ls -l ${OUTDIR}/rootfs/bin
- sleep 15
+ sleep 3
  ${CROSS_COMPILE}readelf -a $OUTDIR/rootfs/bin/busybox | grep "program interpreter"
- sleep 5
+ sleep 3
  ${CROSS_COMPILE}readelf -a $OUTDIR/rootfs/bin/busybox | grep "Shared library"
  sleep 3
  cd "$OUTDIR"
 #  grep -ir \.so $OUTDIR
 ls -l $OUTDIR/lib
-sleep 5
+sleep 3
 ls -l /
-sleep 5
+sleep 3
 ls -l /home
-sleep 5
+sleep 3
 ls -l /home/autotest-admin
-sleep 5
+sleep 3
 ls -l /lib
-sleep 5
+sleep 3
 ls -l /usr/lib
-sleep 5
+sleep 3
+echo looking for libm.so.6, libresolv.so.2 libc.so.6
+ls -l /usr/lib64
+sleep 3
 # cp -a $OUTDIR/lib/ld-linux-armf.so.3 lib
 # cp -a $OUTDIR/lib/ld-2.22.so lib
 #cp -a /home/dmoneyballa/Downloads/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/aarch64-none-linux-gnu/libc/usr/lib64/libc.so lib
