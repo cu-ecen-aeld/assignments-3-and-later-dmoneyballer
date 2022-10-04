@@ -91,6 +91,7 @@ echo "Library dependencies"
  #${CROSS_COMPILE}readelf -a /bin/busybox | grep "program interpreter"
  #${CROSS_COMPILE}readelf -a /bin/busybox | grep "Shared library"
  cd "$OUTDIR"
+ ls $OUTDIR/lib/
 # cp -a $OUTDIR/lib/ld-linux-armf.so.3 lib
 # cp -a $OUTDIR/lib/ld-2.22.so lib
 #cp -a /home/dmoneyballa/Downloads/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/aarch64-none-linux-gnu/libc/usr/lib64/libc.so lib
@@ -106,6 +107,7 @@ cd "$OUTDIR"
 # mkdir bin dev etc home lib proc sbin sys tmp usr var
 # mkdir usr/bin usr/lib usr/sbin
 # mkir -p var/log
+rm dev/*
 sudo mknod -m 666 dev/null c 1 3
 sudo mknod -m 666 dev/console c 1 5
 sudo mknod -m 666 dev/Console c 1 5
