@@ -66,6 +66,7 @@ export GIT_SSL_NO_VERIFY=1
 git config --global http.postBuffer 1048576000
 git config --global https.postBuffer 1048576000
 git clone https://git.busybox.net/busybox.git
+    cd busybox
     git checkout ${BUSYBOX_VERSION}
     # TODO:  Configure busybox
     make -j distclean
