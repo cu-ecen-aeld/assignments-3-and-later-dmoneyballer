@@ -76,7 +76,7 @@ git clone git://busybox.net/busybox.git
     git checkout ${BUSYBOX_VERSION}
     # TODO:  Configure busybox
     make -j distclean
-    make defconfig ARCH=arm64
+    make defconfig
     sudo make -j CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} install
 else
     cd busybox
