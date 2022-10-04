@@ -43,7 +43,7 @@ fi
 
 echo "Adding the Image in outdir"
 cd "$OUTDIR"
-cp  {$OUTDIR}/linux-stable/arch/arm64/boot/Image {$OUTDIR}/
+cp  ${OUTDIR}/linux-stable/arch/arm64/boot/Image ${OUTDIR}/
 echo "Creating the staging directory for the root filesystem"
 cd "$OUTDIR"
 if [ -d "${OUTDIR}/rootfs" ]
@@ -92,8 +92,8 @@ sudo mknod -m 600 dev/console c 5 1
 # sudo mknod -m 666 dev/tty c 1 5
 # # TODO: Clean and build the writer utility
 cd $FINDER_APP_DIR
-# make clean e modules_install step discus
-make -j ARCH=${ARCH} CROSS_COMPILE=$CROSS_COMPILE
+make clean
+make -j ARCH=${ARCH} CROSS_COMPILE=$CROSS_COMPILE all
 # TODO: Copy the finder related scripts and executables to the /home directory
 # on the target rootfs
 sudo mkdir -p $OUTDIR/rootfs/home
