@@ -116,6 +116,14 @@ sleep 3
 # cp -a $OUTDIR/lib/ld-2.22.so lib
 ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/
 sleep 10
+ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib
+sleep 10
+ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/lib64
+sleep 10
+ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/liebexec
+sleep 10
+ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/include
+sleep 10
 cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/libc/usr/lib64/libc.so lib
 cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/libm/usr/lib64/libc.so lib
 # cp -a $CROSS_COMPILE/lib/libc-2.22.so lib
