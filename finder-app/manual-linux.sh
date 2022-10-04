@@ -114,11 +114,14 @@ ls -l /usr/lib64
 sleep 3
 # cp -a $OUTDIR/lib/ld-linux-armf.so.3 lib
 # cp -a $OUTDIR/lib/ld-2.22.so lib
-#cp -a /home/dmoneyballa/Downloads/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/aarch64-none-linux-gnu/libc/usr/lib64/libc.so lib
+ls -l /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/
+sleep 10
+cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/libc/usr/lib64/libc.so lib
+cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/libm/usr/lib64/libc.so lib
 # cp -a $CROSS_COMPILE/lib/libc-2.22.so lib
 # cp -a $OUTDIR/lib/libm.so.6 lib
 # cp -a $OUTDIR/lib/libm-2.22.so lib
-#cp -a /home/dmoneyballa/Downloads/gcc-arm-10.2 -2020.11-x86_64-aarch64-none-linux-gnu/aarch64-none-linux-gnu/libc/lib64/libresolv-2.31.so lib
+cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/libc/lib64/libresolv-2.31.so lib
 # cp -a $OUTDIR/lib/libc
 
 # arm-unknown-linux-gnueabi- readelf -a /bin/busybox | grep "Shared library"
