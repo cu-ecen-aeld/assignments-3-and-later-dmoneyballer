@@ -101,7 +101,7 @@ sudo  cp finder $OUTDIR/rootfs/home
 sudo cp writer $OUTDIR/rootfs/home
 sudo cp finder.sh $OUTDIR/rootfs/home
 sudo cp finder-test.sh $OUTDIR/rootfs/home
-sudo cp conf/ $OUTDIR/rootfs/home
+sudo cp -r conf/ $OUTDIR/rootfs/home
 sudo cp ../conf/username.txt $OUTDIR/rootfs/home 
 sudo cp autorun-qemu.sh $OUTDIR/rootfs/home
 cp -f ${FINDER_APP_DIR}/autorun-qemu.sh ${OUTDIR}/rootfs/home
