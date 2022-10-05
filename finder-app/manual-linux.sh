@@ -7,7 +7,7 @@ set -u
 OUTDIR=/tmp/aeld
 KERNEL_REPO=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 KERNEL_VERSION=v5.1.10
-BUSYBOX_VERSION=1_33_stable
+BUSYBOX_VERSION=1_33_1
 FINDER_APP_DIR=$(realpath $(dirname $0))
 ARCH=arm64
 CROSS_COMPILE=aarch64-none-linux-gnu-
@@ -79,11 +79,19 @@ make -j 56 CONFIG_PREFIX=${OUTDIR}/rootfs ARCH=${ARCH} CROSS_COMPILE=${CROSS_COM
 # TODO: Add library dependencies to rootfs
 echo "Library dependencies"
 cd "$OUTDIR/rootfs"
-
+SYSROOT=$(${CROSS_COMPILE}gcc -print-sysroot)
 cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/bin/../aarch64-none-linux-gnu/libc/lib64/libm.so.6 lib
 cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/bin/../aarch64-none-linux-gnu/libc/lib64/libc.so.6 lib
 cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/bin/../aarch64-none-linux-gnu/libc/lib64/libresolv-2.31.so lib
 cp -a /usr/local/arm-cross-compiler/install/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/bin/../aarch64-none-linux-gnu/libc/lib64/ld-2.31.so lib
+cp -a $SYSROOT/lib/ld-linux-aarch64.so.1 lib
+cp -a $SYSROOT/lib64/ld-2.31.so lib64
+cp -a $SYSROOT/lib64/libm.so.6 lib64
+cp -a $SYSROOT/lib64/libm-2.31.so lib64
+cp -a $SYSROOT/lib64/libresolv.so.2 lib64
+cp -a $SYSROOT/lib64/libresolv-2.31.so lib64
+cp -a $SYSROOT/lib64/libc.so.6 lib64
+cp -a $SYSROOT/lib64/libc-2.31.so lib64
 cd "$OUTDIR/rootfs"
 
 sudo mknod -m 666 dev/null c 1 3
@@ -96,6 +104,7 @@ make clean
 make -j ARCH=${ARCH} CROSS_COMPILE=$CROSS_COMPILE all
 # TODO: Copy the finder related scripts and executables to the /home directory
 # on the target rootfs
+
 mkdir -p $OUTDIR/rootfs/home
  cp finder $OUTDIR/rootfs/home
  cp writer $OUTDIR/rootfs/home
@@ -106,6 +115,7 @@ mkdir -p $OUTDIR/rootfs/home
  cp autorun-qemu.sh $OUTDIR/rootfs/home
  cp -f autorun-qemu.sh $OUTDIR/rootfs/
 cp -f ${FINDER_APP_DIR}/autorun-qemu.sh ${OUTDIR}/rootfs/home
+
 # TODO: Chown the root directory
 cd "$OUTDIR/rootfs"
 
