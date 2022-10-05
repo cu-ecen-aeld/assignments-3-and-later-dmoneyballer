@@ -104,6 +104,7 @@ mkdir -p $OUTDIR/rootfs/home
  cp -r conf/ $OUTDIR/rootfs/home
  cp ../conf/username.txt $OUTDIR/rootfs/home
  cp autorun-qemu.sh $OUTDIR/rootfs/home
+ cp -f autorun-qemu.sh $OUTDIR/rootfs/
 cp -f ${FINDER_APP_DIR}/autorun-qemu.sh ${OUTDIR}/rootfs/home
 # TODO: Chown the root directory
 cd "$OUTDIR/rootfs"
