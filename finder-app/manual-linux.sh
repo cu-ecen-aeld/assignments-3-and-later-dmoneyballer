@@ -108,6 +108,7 @@ make -j ARCH=${ARCH} CROSS_COMPILE=$CROSS_COMPILE all
 mkdir -p $OUTDIR/rootfs/home
  cp finder $OUTDIR/rootfs/home
  cp writer $OUTDIR/rootfs/home
+  cp writer.sh $OUTDIR/rootfs/home
  cp finder.sh $OUTDIR/rootfs/home
  cp finder-test.sh $OUTDIR/rootfs/home
  cp -r conf/ $OUTDIR/rootfs/home
