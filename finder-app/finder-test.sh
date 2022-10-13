@@ -6,8 +6,8 @@ set -e
 set -u
 
 NUMFILES=10
-WRITESTR=AELD_IS_FUN
-WRITEDIR=/tmp/aeld-data
+WRITESTR=assignment4-result.txt
+WRITEDIR=/tmp/
 username=$(cat conf/username.txt)
 
 if [ $# -lt 2 ]
