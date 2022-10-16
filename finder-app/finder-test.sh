@@ -8,7 +8,7 @@ set -u
 NUMFILES=10
 WRITESTR=assignment4-result.txt
 WRITEDIR=/tmp/
-username=$(cat conf/username.txt)
+username=$(cat /etc/conf/username.txt)
 
 if [ $# -lt 2 ]
 then
